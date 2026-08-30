@@ -1,0 +1,23 @@
+{
+  "name": "modulo-3-integrador",
+  "version": "1.0.0",
+  "description": "Proyecto integrador M3 - Bootcamp SoyHenry",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node app.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "bootcamp",
+    "soyhenry"
+  ],
+  "author": "Brayan Garcia",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.2.1",
+    "pg": "^8.23.0",
+    "supertest": "^7.2.2"
+  }
+}
