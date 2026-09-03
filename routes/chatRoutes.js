@@ -1,13 +1,14 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
+const { GoogleGenAI } = require('@google/genai');
 
-const hfToken = process.env.HF_TOKEN;
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 let historial = [];
 
 router.get('/', (req, res) => {
-    res.json(historial)
-})
+    res.json(historial);
+});
 
 router.post('/', async (req, res) => {
     const { texto } = req.body;
@@ -18,38 +19,40 @@ router.post('/', async (req, res) => {
 
     historial.push({ mensaje: texto, tipo: 'user' });
 
-    try {
-        const response = await fetch("https://router.huggingface.co/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                "Authorization": `Bearer ${hfToken}`,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                model: "Qwen/Qwen2.5-7B-Instruct",
-                messages: [
-                    { role: "system", content: "Eres un personaje ficticio carismático respondiendo en un chat." },
-                    { role: "user", content: texto }
-                ]
-            })
-        });
+    // Lista de modelos ordenados por preferencia
+    const modelos = ['gemini-3.6-flash', 'gemini-1.5-flash'];
+    let respuestaExitosa = null;
 
-        const data = await response.json();
+    for (const modelo of modelos) {
+        try {
+            console.log(`Intentando generar respuesta con: ${modelo}...`);
+            const response = await ai.models.generateContent({
+                model: modelo,
+                contents: texto,
+                config: {
+                    systemInstruction: "Eres un personaje ficticio carismático respondiendo en un chat en español.",
+                    maxOutputTokens: 150,
+                    temperature: 0.7
+                }
+            });
 
-        let respuestaIA = "No se generó respuesta";
-        if (data.choices && data.choices[0] && data.choices[0].message) {
-            respuestaIA = data.choices[0].message.content;
+            if (response.text) {
+                respuestaExitosa = response.text.trim();
+                break; // Si responde bien, sale del ciclo inmediatamente
+            }
+        } catch (error) {
+            console.warn(`[Aviso] El modelo ${modelo} no respondió (${error.message}). Probando siguiente...`);
         }
-
-        historial.push({ mensaje: respuestaIA, tipo: 'ai' });
-
-        res.json({ exito: true, historial });
-
-    } catch (error) {
-        console.error("Error al contactar con la IA:", error);
-        historial.push({ mensaje: "Lo siento, no pude responder en este momento.", tipo: 'ai' });
-        res.status(500).json({ error: "Error al comunicarse con la IA", exito: false });
     }
-})
 
-module.exports = router
+    if (respuestaExitosa) {
+        historial.push({ mensaje: respuestaExitosa, tipo: 'ai' });
+        return res.json({ exito: true, historial });
+    } else {
+        const mensajeError = "⚠️ Alta demanda en los servidores de IA en este momento. Intenta de nuevo en unos segundos.";
+        historial.push({ mensaje: mensajeError, tipo: 'ai' });
+        return res.status(200).json({ exito: false, historial });
+    }
+});
+
+module.exports = router;
