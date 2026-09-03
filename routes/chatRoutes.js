@@ -15,7 +15,7 @@ router.post('/', (req,res)=>{
 })
 
 
-const HF_TOKEN = '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';
+
 
 
 router.post('/ia', (req, res) => {
