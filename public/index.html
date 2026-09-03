@@ -1,78 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat M3</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>ComicSansCon - Chat IA</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
     
-    <nav style="background: #333; color: white; padding: 10px; text-align: center;">
-        <a href="/" style="color: white; margin: 0 15px; text-decoration: none;">Home</a>
-        <a href="/chat" style="color: white; margin: 0 15px; text-decoration: none;">Chat</a>
-        <a href="/about" style="color: white; margin: 0 15px; text-decoration: none;">About</a>
-    </nav>
-    
-    <div class="container">
-        <h1>Mi Chat</h1>
-        
-        <div class="chat-area" id="messages">
-           
+    <header class="app-header">
+        <div class="brand">
+            <span class="brand-icon">⚡</span>
+            <span class="brand-title">ComicSansCon</span>
         </div>
+        <nav class="nav-links">
+            <button class="nav-btn active" id="btn-nav-home" onclick="navegarA('home')">Inicio</button>
+            <button class="nav-btn" id="btn-nav-chat" onclick="navegarA('chat')">Chat</button>
+            <button class="nav-btn" id="btn-nav-about" onclick="navegarA('about')">Acerca de</button>
+        </nav>
+    </header>
 
-        <form id="message-form">
-            <input type="text" id="message-input" placeholder="Escribe un mensaje..." required>
-            <button type="submit">Enviar</button>
-        </form>
-    </div>
+    <main class="main-content">
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('message-form');
-            const input = document.getElementById('message-input');
-            const messagesDiv = document.getElementById('messages');
-
-            
-            function renderMensajes(historial) {
-                messagesDiv.innerHTML = '';
+       
+        <section id="home-view" class="view">
+            <div class="welcome-card">
+                <h1>Elige tu Personaje</h1>
+                <p>Haz clic en uno de los héroes para iniciar un chat en vivo con IA:</p>
                 
-                const lista = Array.isArray(historial) ? historial : (historial.historial || []);
+                <div class="characters-grid">
+                    <div class="character-card goku" onclick="seleccionarPersonaje('goku')">
+                        <div class="avatar-wrapper">
+                            <span class="avatar-emoji">💥</span>
+                        </div>
+                        <h3>Goku</h3>
+                        <p class="subtitle">Guerrero Sayayin</p>
+                        <button class="chat-start-btn">Iniciar Chat 💬</button>
+                    </div>
+
+                    <div class="character-card batman" onclick="seleccionarPersonaje('batman')">
+                        <div class="avatar-wrapper">
+                            <span class="avatar-emoji">🦇</span>
+                        </div>
+                        <h3>Batman</h3>
+                        <p class="subtitle">El Caballero de la Noche</p>
+                        <button class="chat-start-btn">Iniciar Chat 💬</button>
+                    </div>
+
+                    <div class="character-card spiderman" onclick="seleccionarPersonaje('spiderman')">
+                        <div class="avatar-wrapper">
+                            <span class="avatar-emoji">🕷️</span>
+                        </div>
+                        <h3>Spider-Man</h3>
+                        <p class="subtitle">Tu Amistoso Vecino</p>
+                        <button class="chat-start-btn">Iniciar Chat 💬</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       
+        <section id="chat-view" class="view" style="display: none;">
+            <div class="whatsapp-container">
                 
-                lista.forEach(msg => {
-                    const div = document.createElement('div');
-                    div.classList.add('message');
-                    div.classList.add(msg.tipo === 'ai' ? 'ai' : 'user');
-                    div.textContent = msg.mensaje;
-                    messagesDiv.appendChild(div);
-                });
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            }
+                <div class="chat-topbar">
+                    <div class="chat-user-info">
+                        <span id="chat-avatar" class="chat-top-avatar">💥</span>
+                        <div>
+                            <h3 id="nombre-personaje">Goku</h3>
+                            <span class="status-online">● en línea</span>
+                        </div>
+                    </div>
+                    <button class="change-char-btn" onclick="navegarA('home')">Cambiar Personaje</button>
+                </div>
 
-            
-            async function loadMessages() {
-                const response = await fetch('/api');
-                const data = await response.json();
-                renderMensajes(data);
-            }
+                
+                <div id="chat-box" class="chat-messages-area">
+                    <div class="system-badge">Las conversaciones son generadas por IA en tiempo real</div>
+                </div>
 
-           
-            loadMessages();
+               
+                <div class="chat-inputbar">
+                    <input type="text" id="mensaje-input" placeholder="Escribe un mensaje..." autocomplete="off" onkeypress="if(event.key==='Enter') enviarMensaje()">
+                    <button class="send-btn" onclick="enviarMensaje()">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
 
-           
-            form.addEventListener('submit', async (e) => { 
-                e.preventDefault();
-                const texto = input.value;
-                const response = await fetch('/api', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ texto })
-                });
-                const data = await response.json();
-                input.value = '';
-                renderMensajes(data.historial || data);
-            });
-        });
-    </script>
+        
+        <section id="about-view" class="view" style="display: none;">
+            <div class="about-card">
+                <h2>Acerca de ComicSansCon POC</h2>
+                <p>Esta es una Prueba de Concepto (POC) desarrollada para evaluar la integración de modelos de Inteligencia Artificial conversacionales con personajes icónicos de la cultura pop.</p>
+                <br>
+                <p><strong>Tecnologías:</strong> Node.js, Express, Google GenAI SDK, Vercel Functions y Vanilla JS.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="/script.js"></script>
 </body>
 </html>
