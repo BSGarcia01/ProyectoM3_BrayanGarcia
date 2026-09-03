@@ -1,5 +1,3 @@
-
-
 const PERSONAJES_INFO = {
     goku: { nombre: "Goku", emoji: "💥" },
     batman: { nombre: "Batman", emoji: "🦇" },
@@ -31,11 +29,10 @@ function navegarA(vistaId) {
 
 function seleccionarPersonaje(idPersonaje) {
     localStorage.setItem('personajeSeleccionado', idPersonaje);
-    
-    
+
     const chatBox = document.getElementById('chat-box');
     chatBox.innerHTML = '<div class="system-badge">Iniciando chat con ' + PERSONAJES_INFO[idPersonaje].nombre + '</div>';
-    
+
     navegarA('chat');
 }
 
@@ -59,16 +56,14 @@ async function enviarMensaje() {
 
     const personajeActual = localStorage.getItem('personajeSeleccionado') || 'goku';
 
-   
     const userBubble = document.createElement('div');
     userBubble.className = 'bubble user';
     userBubble.innerHTML = `${texto} <span class="time-stamp">${obtenerHoraActual()}</span>`;
     chatBox.appendChild(userBubble);
-    
+
     inputTexto.value = '';
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    
     const typingBadge = document.createElement('div');
     typingBadge.className = 'bubble ia';
     typingBadge.id = 'typing-indicator';
@@ -80,15 +75,14 @@ async function enviarMensaje() {
         const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                texto: texto, 
-                personaje: personajeActual 
+            body: JSON.stringify({
+                texto: texto,
+                personaje: personajeActual
             })
         });
 
         const data = await response.json();
-        
-        // Quitar indicador de escribiendo
+
         const indicator = document.getElementById('typing-indicator');
         if (indicator) indicator.remove();
 
@@ -98,13 +92,25 @@ async function enviarMensaje() {
             aiBubble.className = 'bubble ia';
             aiBubble.innerHTML = `${ultimoMensaje.mensaje} <span class="time-stamp">${obtenerHoraActual()}</span>`;
             chatBox.appendChild(aiBubble);
-            chatBox.scrollTop = chatBox.scrollHeight;
+        } else {
+            const errorBubble = document.createElement('div');
+            errorBubble.className = 'bubble ia';
+            errorBubble.innerHTML = `⚠️ ${data.error || 'Ocurrió un problema, intenta de nuevo.'} <span class="time-stamp">${obtenerHoraActual()}</span>`;
+            chatBox.appendChild(errorBubble);
         }
+
+        chatBox.scrollTop = chatBox.scrollHeight;
 
     } catch (error) {
         console.error("Error enviando mensaje:", error);
         const indicator = document.getElementById('typing-indicator');
         if (indicator) indicator.remove();
+
+        const errorBubble = document.createElement('div');
+        errorBubble.className = 'bubble ia';
+        errorBubble.innerHTML = `⚠️ No se pudo conectar con el servidor. Intenta de nuevo. <span class="time-stamp">${obtenerHoraActual()}</span>`;
+        chatBox.appendChild(errorBubble);
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 }
 
