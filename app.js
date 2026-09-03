@@ -10,9 +10,15 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
 
 
 app.get("/", (req, res) => {
+  res.sendFile("index.html", { root: __dirname });
+});
+
+
+app.get("/chat", (req, res) => {
   res.sendFile("index.html", { root: __dirname });
 });
 
@@ -23,6 +29,7 @@ app.get("/about", (req, res) => {
 
 
 app.use("/api", chatRoutes);
+
 
 app.use((req, res) => {
   res.status(404).json({ error: "Ruta no encontrada" });
