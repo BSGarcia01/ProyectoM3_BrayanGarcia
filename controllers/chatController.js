@@ -1,6 +1,10 @@
 module.exports = {
   obtenerMensajes: (req, res) => {
-  
+    const db = require("../config/database.js");
+    const messages = db.prepare("SELECT * FROM messages ORDER BY creado_en DESC").all();
+    
+    
+    res.json({ mensajes: messages, exito: true });
   },
 
   enviarMensaje: (req, res) => {
@@ -20,9 +24,10 @@ module.exports = {
     res.json({ mensaje, exito: true });
   },
 
- 
-  llamarIA: (mensaje) => {
-    
-    return "Procesando IA..."; 
+  eliminarMensaje: (req, res) => {
+    const { id } = req.body;
+    const db = require("../config/database.js");
+    db.prepare("DELETE FROM messages WHERE id = ?").run(id);
+    res.json({ mensaje: "Mensaje eliminado", exito: true });
   }
 };
