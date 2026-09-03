@@ -15,8 +15,7 @@
     </nav>
     
     <div class="container">
-        <h1>Mi Chat Simple</h1>
-        
+        <h1>Mi Chat</h1>
         
         <div class="chat-area" id="messages">
            
@@ -34,41 +33,44 @@
             const input = document.getElementById('message-input');
             const messagesDiv = document.getElementById('messages');
 
+            
+            function renderMensajes(historial) {
+                messagesDiv.innerHTML = '';
+                
+                const lista = Array.isArray(historial) ? historial : (historial.historial || []);
+                
+                lista.forEach(msg => {
+                    const div = document.createElement('div');
+                    div.classList.add('message');
+                    div.classList.add(msg.tipo === 'ai' ? 'ai' : 'user');
+                    div.textContent = msg.mensaje;
+                    messagesDiv.appendChild(div);
+                });
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+
+            
             async function loadMessages() {
                 const response = await fetch('/api');
                 const data = await response.json();
-                
-               
-                const mensajes = data.mensajes ? data.mensajes.slice(-20) : [];
-                
-                messagesDiv.innerHTML = '';
-                mensajes.forEach(msg => {
-                    
-                    const div = document.createElement('div');
-                    div.classList.add('message');
-                    
-                    div.innerHTML = `<strong>${msg.autor}:</strong> ${msg.texto}`;
-                    messagesDiv.appendChild(div);
-                });
-                
-                
-                if (messagesDiv) {
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                }
+                renderMensajes(data);
             }
 
+           
             loadMessages();
 
-            form.addEventListener('submit', async (e) => {
+           
+            form.addEventListener('submit', async (e) => { 
                 e.preventDefault();
                 const texto = input.value;
-                await fetch('/api', {
+                const response = await fetch('/api', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ texto })
                 });
+                const data = await response.json();
                 input.value = '';
-                loadMessages();
+                renderMensajes(data.historial || data);
             });
         });
     </script>
