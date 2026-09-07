@@ -16,36 +16,44 @@ body {
 
 .app-header {
     background-color: #1e293b;
-    padding: 16px 28px;
+    padding: 12px 16px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
+    gap: 10px;
     border-bottom: 1px solid #334155;
 }
 
 .brand {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: #38bdf8;
 }
 
 .nav-links {
     display: flex;
-    gap: 12px;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
 }
+
 
 .nav-btn {
     background: transparent;
     border: 1px solid #475569;
     color: #94a3b8;
-    font-size: 0.9rem;
-    padding: 8px 16px;
+    font-size: 0.8rem;
+    padding: 7px 10px;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
+    flex: 1;
+    min-width: 0;
+    text-align: center;
 }
 
 .nav-btn:hover, .nav-btn.active {
@@ -54,13 +62,13 @@ body {
     border-color: #0284c7;
 }
 
-/* CONTENEDOR PRINCIPAL */
+
 .main-content {
     flex: 1;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    padding: 40px 20px;
+    padding: 16px;
 }
 
 .view {
@@ -68,10 +76,9 @@ body {
     max-width: 900px;
 }
 
-
 .welcome-card, .about-card {
     background-color: #1e293b;
-    padding: 40px 30px;
+    padding: 24px 18px;
     border-radius: 16px;
     border: 1px solid #334155;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
@@ -79,31 +86,30 @@ body {
 }
 
 .welcome-card h1 {
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     color: #f8fafc;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     letter-spacing: -0.5px;
 }
 
 .welcome-card p {
     color: #94a3b8;
-    font-size: 1.05rem;
-    margin-bottom: 35px;
+    font-size: 0.95rem;
+    margin-bottom: 24px;
 }
 
-/* GRID DE PERSONAJES SEPARADOS */
+
 .characters-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 24px;
-    justify-content: center;
+    grid-template-columns: 1fr;
+    gap: 16px;
 }
 
 .character-card {
     background-color: #0f172a;
     border: 1px solid #334155;
     border-radius: 14px;
-    padding: 28px 20px;
+    padding: 20px 16px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -112,37 +118,37 @@ body {
 }
 
 .character-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-4px);
     border-color: #38bdf8;
     box-shadow: 0 12px 20px -5px rgba(56, 189, 248, 0.2);
 }
 
 .avatar-wrapper {
-    width: 76px;
-    height: 76px;
+    width: 64px;
+    height: 64px;
     background-color: #1e293b;
     border: 1px solid #475569;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }
 
 .avatar-emoji {
-    font-size: 2.4rem;
+    font-size: 2rem;
 }
 
 .character-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     color: #f8fafc;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .character-card .subtitle {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     color: #94a3b8;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
 }
 
 .chat-start-btn {
@@ -152,7 +158,7 @@ body {
     padding: 10px 20px;
     border-radius: 8px;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     cursor: pointer;
     transition: background-color 0.2s ease;
     width: 100%;
@@ -166,18 +172,17 @@ body {
 .whatsapp-container {
     background-color: #1e293b;
     border: 1px solid #334155;
-    border-radius: 16px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
-    height: 75vh;
-    max-height: 650px;
+    height: 80vh;
     overflow: hidden;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
 }
 
 .chat-topbar {
     background-color: #0f172a;
-    padding: 16px 20px;
+    padding: 12px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -187,14 +192,14 @@ body {
 .chat-user-info {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .chat-top-avatar {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     background: #334155;
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -202,21 +207,21 @@ body {
 }
 
 .chat-user-info h3 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #f8fafc;
 }
 
 .status-online {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: #38bdf8;
 }
 
 .change-char-btn {
     background: #334155;
     border: none;
-    padding: 8px 14px;
+    padding: 8px 12px;
     border-radius: 8px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #f8fafc;
     cursor: pointer;
     transition: background 0.2s;
@@ -226,14 +231,13 @@ body {
     background: #475569;
 }
 
-/* ÁREA DE MENSAJES */
 .chat-messages-area {
     flex: 1;
-    padding: 24px;
+    padding: 16px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
     background-color: #0f172a;
 }
 
@@ -241,16 +245,16 @@ body {
     align-self: center;
     background-color: #334155;
     color: #94a3b8;
-    font-size: 0.8rem;
-    padding: 6px 14px;
+    font-size: 0.78rem;
+    padding: 6px 12px;
     border-radius: 20px;
 }
 
 .bubble {
-    max-width: 75%;
-    padding: 12px 18px;
+    max-width: 85%;
+    padding: 10px 14px;
     border-radius: 14px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     line-height: 1.5;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
 }
@@ -271,28 +275,27 @@ body {
 }
 
 .time-stamp {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     opacity: 0.7;
     float: right;
     margin-top: 6px;
-    margin-left: 12px;
+    margin-left: 10px;
 }
-
 
 .chat-inputbar {
     background-color: #1e293b;
-    padding: 16px;
+    padding: 12px;
     display: flex;
-    gap: 12px;
+    gap: 10px;
     border-top: 1px solid #334155;
 }
 
 .chat-inputbar input {
     flex: 1;
-    padding: 12px 18px;
+    padding: 10px 14px;
     border: 1px solid #334155;
     border-radius: 10px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     background: #0f172a;
     color: #f8fafc;
     outline: none;
@@ -306,29 +309,90 @@ body {
     background-color: #0284c7;
     color: white;
     border: none;
-    width: 46px;
-    height: 46px;
+    width: 42px;
+    height: 42px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: background 0.2s;
+    flex-shrink: 0;
 }
 
 .send-btn:hover {
     background-color: #0369a1;
 }
 
-/* Telefono */
-@media (max-width: 640px) {
+
+@media (min-width: 600px) {
+    .app-header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 16px 24px;
+    }
+
+    .brand {
+        font-size: 1.2rem;
+    }
+
     .main-content {
-        padding: 15px;
+        padding: 24px;
     }
-    .welcome-card {
-        padding: 24px 16px;
+
+    .welcome-card, .about-card {
+        padding: 32px 28px;
     }
+
+    .welcome-card h1 {
+        font-size: 1.9rem;
+    }
+
     .characters-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .whatsapp-container {
+        height: 78vh;
+        max-height: 650px;
+        border-radius: 16px;
+    }
+
+    .bubble {
+        max-width: 75%;
+    }
+}
+
+
+@media (min-width: 1024px) {
+    .app-header {
+        padding: 16px 32px;
+    }
+
+    .main-content {
+        padding: 40px 20px;
+        align-items: center;
+    }
+
+    .welcome-card h1 {
+        font-size: 2.2rem;
+    }
+
+    .welcome-card p {
+        font-size: 1.05rem;
+    }
+
+    .characters-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+    }
+
+    .character-card {
+        padding: 28px 20px;
+    }
+
+    .whatsapp-container {
+        height: 75vh;
     }
 }
