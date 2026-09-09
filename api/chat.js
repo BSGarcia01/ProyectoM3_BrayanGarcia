@@ -3,9 +3,9 @@ const { GoogleGenAI } = require('@google/genai');
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 const personalidades = {
-    goku: "Eres Goku de Dragon Ball. Eres alegre, apasionado por entrenar y comer, y siempre buscas volverte más fuerte. Responde en español, con respuestas cortas apropiadas para un chat.",
-    batman: "Eres Batman (Bruce Wayne). Tu tono es serio, reservado y protector de Gotham. Respondes en español, corto y directo.",
-    spiderman: "Eres Spider-Man (Peter Parker). Eres divertido, carismático y bromista. Respondes en español, con respuestas cortas."
+    goku: "Eres Goku de Dragon Ball. Eres alegre, apasionado por entrenar y comer, y siempre buscas volverte más fuerte. Responde en español, en 1 o 2 oraciones cortas y completas, apropiadas para un chat.",
+    batman: "Eres Batman (Bruce Wayne). Tu tono es serio, reservado y protector de Gotham. Respondes en español, en 1 o 2 oraciones cortas y completas.",
+    spiderman: "Eres Spider-Man (Peter Parker). Eres divertido, carismático y bromista. Respondes en español, en 1 o 2 oraciones cortas y completas."
 };
 
 function esperar(ms) {
@@ -43,14 +43,14 @@ module.exports = async function handler(req, res) {
 
         try {
             const response = await generarConReintento({
-                model: "gemini-3.6-flash",
-                contents: historial,
-                config: {
-                    systemInstruction: systemPrompt,
-                    maxOutputTokens: 300,
-                    temperature: 0.7
-                }
-            });
+    model: "gemini-3.6-flash",
+    contents: historial,
+    config: {
+        systemInstruction: systemPrompt,
+        maxOutputTokens: 800,
+        temperature: 0.7
+    }
+});
 
             const respuestaIA = response.text ? response.text.trim() : "No se generó respuesta";
 
@@ -59,11 +59,12 @@ module.exports = async function handler(req, res) {
                 historial: [{ tipo: 'ai', mensaje: respuestaIA }]
             });
 
-        } catch (error) {
-            return res.status(500).json({
-                error: "El servicio de IA está temporalmente saturado, intenta de nuevo.",
-                exito: false
-            });
+} catch (error) {
+        console.error("Error real de Gemini:", error);
+        return res.status(500).json({
+        error: "El servicio de IA está temporalmente saturado, intenta de nuevo.",
+        exito: false
+        });
         }
     }
 

@@ -1,195 +1,176 @@
-Entendido perfectamente. Tomando como base la estructura formal, clara y detallada de tu proyecto anterior, he adaptado el README para este nuevo proyecto (`ProyectoM3_BrayanGarcia`), integrando la arquitectura del chat con IA, los requerimientos de Vercel y el registro detallado del uso de la IA tal como lo solicitaste.
+# ComicSansCon — Chatea con tu Personaje Favorito
 
-Aquí tienes el contenido completo para tu nuevo archivo **`README.md`**:
+Proyecto Integrador del Módulo 3 de SoyHenry. Single Page Application que permite chatear con personajes ficticios usando inteligencia artificial (Google Gemini), desarrollado por Bryan García para la agencia ficticia **ComicSansCon**.
 
-```markdown
-# ComicSansCon — Proyecto Módulo 3 (Chat con IA)
+## 1. Descripción del personaje elegido
 
-Proyecto desarrollado por Bryan García como evaluación del Módulo 3 en SoyHenry.
+El proyecto permite elegir entre **tres personajes** de la cultura pop, cada uno con su propia personalidad definida mediante un system prompt específico:
 
-## 1. Descripción del proyecto
+- **Goku** (Dragon Ball) — alegre, apasionado por entrenar y comer, siempre buscando volverse más fuerte.
+- **Batman** (DC Comics) — serio, reservado, analítico y protector de Gotham.
+- **Spider-Man** (Marvel) — divertido, carismático y bromista.
 
-ComicSansCon es una aplicación web interactiva que permite a los usuarios conversar en tiempo real con modelos de Inteligencia Artificial adoptando la personalidad de icónicos personajes de la cultura pop (Goku, Batman y Spider-Man). 
+Cada personaje responde en español, manteniendo su tono característico, con respuestas cortas y apropiadas para una conversación de chat.
 
-La arquitectura combina un backend en **Node.js** con **Express** —integrando el SDK oficial de Google GenAI (`@google/genai`)— y una interfaz Frontend de una sola página (SPA) responsiva y moderna basada en diseño oscuro estilo aplicación de mensajería. El proyecto está optimizado y configurado para su ejecución local y despliegue serverless en **Vercel**.
+## 2. Capturas de pantalla
 
-## 2. Tecnologías utilizadas
+### Desktop
 
-- **Node.js** — entorno de ejecución de JavaScript en el servidor.
-- **Express** — framework para construir la API REST y manejar las rutas del servidor.
-- **@google/genai** — SDK oficial de Google para interactuar con los modelos de Gemini y aplicar *system instructions*.
-- **HTML5 / CSS3 / JavaScript (Vanilla)** — diseño de la interfaz de usuario (SPA) responsiva con tarjetas y vistas dinámicas.
-- **Vercel / Vercel CLI** — plataforma de despliegue serverless y emulación local mediante `vercel dev`.
-- **Gemini / Asistentes de IA** — usados como apoyo de desarrollo y enrutamiento inteligente (ver sección 12).
+**Home — Selección de personaje**
+![Home Desktop](./capturas/1.png)
 
-## 3. Estructura del repositorio
+**Chat — Conversación en curso**
+![Chat Desktop](./capturas/2.png)
 
+**About — Información del proyecto**
+![About Desktop](./capturas/3.png)
+
+### Mobile
+
+**Home — Selección de personaje**
+![Home Mobile](./capturas/4.png)
+
+**Chat — Conversación en curso**
+![Chat Mobile](./capturas/5.png)
+
+**About — Información del proyecto**
+![About Mobile](./capturas/6.png)
+
+## 3. Aplicación desplegada
+
+🔗 **URL pública:** [https://proyecto-m3-brayan-garcia.vercel.app](https://proyecto-m3-brayan-garcia.vercel.app)
+
+## 4. Tecnologías utilizadas
+
+- **HTML5 / CSS3** — interfaz responsive, mobile-first, con Flexbox y Grid.
+- **JavaScript (Vanilla JS, módulos ES)** — SPA, routing, lógica de chat.
+- **History API** (`pushState` / `popstate`) — navegación sin recargas.
+- **Google Gemini (`@google/genai`)** — modelo `gemini-3.6-flash` para las respuestas de los personajes.
+- **Vercel Serverless Functions** — proxy seguro entre el frontend y Gemini.
+- **Vitest** — pruebas unitarias.
+- **Vercel** — plataforma de despliegue.
+- **Claude (Anthropic)** — apoyo de aprendizaje durante el desarrollo (ver sección 10).
+
+## 5. Estructura del proyecto
 
 ```
-
 ProyectoM3_BrayanGarcia/
 ├── api/
-│   └── chat.js           
+│   └── chat.js              → Vercel Function: proxy seguro hacia Gemini
+├── capturas/                → Capturas de pantalla (1.png a 6.png: desktop y mobile)
 ├── public/
-│   ├── index.html          → Interfaz principal SPA (Home, Chat y Acerca de)
-│   ├── styles.css          → Estilos modernos de la aplicación (tarjetas y chat estilo WhatsApp)
-│   └── script.js           → Lógica del cliente para navegación y consumo de la API de chat
-├── routes/
-│   └── chatRoutes.js       → Endpoints y lógica de negocio para la interacción con los personajes
+│   ├── index.html            → Estructura de la SPA (vistas Home, Chat, About)
+│   ├── styles.css             → Estilos responsive (mobile-first, 2 breakpoints)
+│   ├── app.js                  → Routing (History API) y lógica de la interfaz
+│   ├── chat.js                  → Comunicación con la API (fetch)
+│   └── utils.js                  → Funciones puras: validación, formateo, parseo
+├── tests/
+│   └── utils.test.js               → 4 tests unitarios con Vitest
+├── vercel.json                       → outputDirectory: "public" + rewrites para el routing SPA
+├── .env                                → Variables de entorno (no se sube a Git)
+├── .env.example                         → Plantilla de variables de entorno
+├── .gitignore
 ├── package.json
-├── .env                    → Variables de entorno (no se sube a Git)
-├── .env.example            → Plantilla de variables de entorno
-├── vercel.json             → Configuración de enrutamiento y despliegue para Vercel
-└── .gitignore
-
+└── README.md
 ```
 
-## 4. Descripción de los Personajes Elegidos
+## 6. Funcionalidades
 
-La plataforma cuenta con tres personajes configurados en el backend mediante instrucciones de sistema específicas:
-
-1. **💥 Goku**
-   - **Personalidad:** Alegre, apasionado por entrenar, comer y volverse más fuerte.
-   - **Tono:** Enérgico, motivador y entusiasta.
-2. **🦇 Batman**
-   - **Personalidad:** Serio, reservado, analítico y protector de Gotham.
-   - **Tono:** Directo, firme, analítico y estratégico.
-3. **🕷️ Spider-Man**
-   - **Personalidad:** Carismático, amigable, bromista y cercano.
-   - **Tono:** Relajado, divertido y conversacional.
-
-## 5. Endpoints disponibles
-
-| Método | Ruta | Descripción |
-|---|---|---|
-| POST | /api/chat | Recibe el mensaje del usuario y la identidad del personaje, procesando la respuesta mediante Gemini |
-
-## 6. Manejo de errores
-
-Los endpoints del backend envuelven las peticiones al SDK de Gemini en bloques `try/catch` para capturar fallos de red o de la API. Se manejan respuestas JSON estructuradas con códigos HTTP apropiados:
-- `200` (OK — respuesta generada con éxito)
-- `400` (Datos incompletos o inválidos)
-- `500` (Error interno del servidor o fallo temporal del modelo de IA)
+- **Selección de personaje** desde una galería visual de tarjetas.
+- **Chat en tiempo real** con diferenciación visual clara entre mensajes del usuario y del personaje.
+- **Historial completo enviado en cada request** — el personaje mantiene contexto de toda la conversación, no solo del último mensaje.
+- **Indicador de "Escribiendo..."** mientras se espera la respuesta de la IA.
+- **Manejo de errores elegante** — si la API falla, se muestra un mensaje claro dentro del propio chat.
+- **Reintento automático** ante errores de alta demanda (503) del modelo, antes de mostrar el error al usuario.
+- **Timestamps** en cada mensaje y **scroll automático** al último mensaje.
+- **Routing SPA real** con History API: `/home`, `/chat`, `/about` cambian la URL sin recargar la página, y los botones back/forward del navegador funcionan correctamente.
+- **Diseño responsive mobile-first**, con breakpoints para tablet (600px) y desktop (1024px).
 
 ## 7. Requisitos y pasos para ejecutar localmente
 
 ### Requisitos previos
-- Node.js instalado (v18 o superior recomendado).
-- Vercel CLI instalado globalmente para emular el entorno serverless:
-  ```bash
-  npm i -g vercel
-
-```
+- Node.js instalado (v18 o superior).
+- Vercel CLI: `npm install -g vercel`
+- Una API Key de Google Gemini, generada en [Google AI Studio](https://aistudio.google.com/api-keys).
 
 ### Pasos
 
-1. Clona este repositorio:
-```bash
-git clone [https://github.com/BSGarcia01/ProyectoM3_BrayanGarcia.git](https://github.com/BSGarcia01/ProyectoM3_BrayanGarcia.git)
-cd ProyectoM3_BrayanGarcia
-
-```
-
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/BSGarcia01/ProyectoM3_BrayanGarcia.git
+   cd ProyectoM3_BrayanGarcia
+   ```
 
 2. Instala las dependencias:
-```bash
-npm install
-
-```
-
+   ```bash
+   npm install
+   ```
 
 3. Crea tu archivo `.env` a partir de la plantilla:
-```bash
-cp .env.example .env
+   ```bash
+   cp .env.example .env
+   ```
+   Y agrega tu propia API key:
+   ```
+   GEMINI_API_KEY=tu_api_key_de_gemini
+   ```
 
-```
-
-
-Y completa tu clave de API de Gemini:
-```
-GEMINI_API_KEY=tu_clave_api_aqui
-
-```
-
-
-4. Ejecuta el servidor localmente emulando Vercel:
-```bash
-vercel dev
-
-```
-
-
-La aplicación quedará disponible en `http://localhost:3000`.
+4. Ejecuta el proyecto con Vercel CLI (necesario para simular correctamente las Serverless Functions en local):
+   ```bash
+   vercel dev
+   ```
+   La aplicación quedará disponible en `http://localhost:3000`.
 
 ## 8. Cómo ejecutar los tests
 
-Para esta Prueba de Concepto, la validación del sistema se realiza principalmente de forma funcional a través de la interfaz SPA y la correcta respuesta de la ruta de chat. Si se requiere verificar pruebas automatizadas configuradas en el entorno, ejecuta:
+El proyecto incluye 4 tests unitarios con **Vitest**, enfocados en las funciones puras de `utils.js` (validación de mensajes, transformación del historial al formato de Gemini, y parseo de respuestas):
 
 ```bash
 npm test
-
 ```
 
-## 9. Documentación y Arquitectura
+Salida esperada:
+```
+✓ tests/utils.test.js (4)
+  ✓ validarMensaje (2)
+  ✓ construirHistorialParaGemini (1)
+  ✓ parseRespuestaGemini (1)
 
-La aplicación está diseñada bajo el patrón de SPA (Single Page Application) consumiendo una API serverless. La comunicación cliente-servidor se maneja de manera asíncrona mediante JavaScript (`fetch`), actualizando dinámicamente el DOM para alternar entre la selección de personajes en la vista de inicio y la interfaz de chat en tiempo real.
+Tests  4 passed (4)
+```
 
-## 10. Despliegue en Vercel
+## 9. Cómo desplegar a Vercel
 
-El proyecto está configurado para desplegarse de manera nativa en Vercel mediante funciones serverless.
+1. Conecta el repositorio de GitHub a un nuevo proyecto en [vercel.com](https://vercel.com) (Import Git Repository).
+2. En **Settings → Build and Deployment**, asegúrate de que el **Framework Preset** esté configurado como **"Other"**.
+3. En **Settings → Environment Variables**, agrega:
+   - **Key:** `GEMINI_API_KEY`
+   - **Value:** tu API key real
+   - Marca los 3 entornos: Production, Preview y Development.
+4. Despliega desde la terminal:
+   ```bash
+   vercel --prod
+   ```
+5. Vercel detecta automáticamente la carpeta `api/` como Serverless Function. El archivo `vercel.json` define `"outputDirectory": "public"` (para que el contenido de esa carpeta se sirva desde la raíz del sitio) y un rewrite que redirige todas las rutas no-API hacia `index.html`, permitiendo que el routing SPA funcione también en producción (incluyendo al recargar directamente en `/chat` o `/about`).
 
-**Pasos generales del despliegue:**
+## 10. Uso de la IA
 
-1. Se importó el repositorio de GitHub en el panel de Vercel.
-2. Se configuró la variable de entorno `GEMINI_API_KEY` en la sección de *Environment Variables* del proyecto en Vercel.
-3. Vercel detecta automáticamente la configuración del archivo `vercel.json` y el directorio `api/` para levantar las rutas del backend y servir los archivos estáticos de la carpeta `public/`.
-4. Cada actualización en la rama principal (`main`) genera un despliegue automático en producción.
+Durante el desarrollo utilicé Claude (Anthropic) como tutor de aprendizaje: la dinámica consistió en que yo escribía y decidía el código, mientras Claude explicaba conceptos, revisaba errores y guiaba el razonamiento paso a paso, dando código ya armado solo en piezas repetitivas donde el patrón ya estaba dominado o cuando el tiempo era limitado.
 
-**Demo desplegada:** [https://tu-proyecto.vercel.app](https://www.google.com/search?q=https://tu-proyecto.vercel.app) *(Actualizar con la URL final)*
+Algunos ejemplos de cómo se usó la IA en momentos clave del desarrollo:
 
-## 11. Capturas de pantalla de la aplicación
+- Al recibir el feedback de una entrega previa desaprobada, compartí la retroalimentación y la rúbrica de evaluación para identificar, categoría por categoría, qué requisitos técnicos faltaban (routing SPA real, historial completo a Gemini, arquitectura coherente, testing, CSS mobile-first).
+- Al diagnosticar por qué la conexión con Gemini fallaba en producción, se revisaron los logs de Vercel en conjunto para identificar errores concretos (variable de entorno faltante, nombre de modelo mal escrito, un parámetro de configuración no soportado por el modelo).
+- Al reestructurar el proyecto (eliminando una arquitectura previa basada en Express y SQLite), se explicó por qué una arquitectura única y simple, alineada a lo que pedía la consigna, era preferible a mantener dos enfoques a medio terminar.
+- Al escribir el CSS, se explicó la diferencia conceptual entre un enfoque "desktop-first" (el que tenía originalmente) y uno genuinamente "mobile-first", reescribiendo los estilos para que el diseño base fuera el de celular, y los breakpoints agregaran mejoras progresivas hacia tablet y desktop.
 
-### Vista Home (Selección de Personajes)
+## 11. Repositorio
 
-*(Adjuntar aquí tu captura de pantalla de la pantalla de inicio con las tarjetas)*
+- **Repositorio:** [https://github.com/BSGarcia01/ProyectoM3_BrayanGarcia](https://github.com/BSGarcia01/ProyectoM3_BrayanGarcia)
+- **Demo desplegada:** [https://proyecto-m3-brayan-garcia.vercel.app](https://proyecto-m3-brayan-garcia.vercel.app)
 
-### Vista Chat (Mensajería en Vivo)
-
-*(Adjuntar aquí tu captura de pantalla del chat funcionando)*
-
-## 12. Uso y dependencia de la IA en el proyecto
-
-Durante el desarrollo de este proyecto, la Inteligencia Artificial cumplió un rol dual fundamental: **como dependencia directa del núcleo funcional de la aplicación** y **como co-piloto de desarrollo en el diseño de ingeniería**.
-
-### A. Dependencia Funcional (Core de Negocio)
-
-La aplicación no puede operar sin IA. Las respuestas de los personajes (*Goku, Batman y Spider-Man*) dependen estrictamente de la integración con el SDK `@google/genai`, transmitiendo instrucciones de sistema dinámicas que configuran el comportamiento y tono de cada héroe en tiempo real.
-
-### B. Uso de la IA como Co-piloto de Desarrollo
-
-Se utilizaron modelos de IA como apoyo técnico para optimizar el flujo de trabajo:
-
-* **Diseño de Arquitectura Serverless:** Estructuración de la separación de carpetas entre `api/` y `public/` para cumplir con las especificaciones de enrutamiento de Vercel.
-* **Maquetación y UI/UX:** Creación y depuración del archivo `styles.css` para lograr un diseño responsivo de tarjetas en el Home y una interfaz de chat moderna sin librerías externas pesadas.
-* **Depuración de Código:** Resolución iterativa de rutas estáticas en Express, manejo de vistas SPA mediante `localStorage` y filtrado de caracteres de Markdown vacíos en las respuestas del chat.
-
-Ejemplos de consultas utilizadas durante el desarrollo:
-
-* *"¿Cómo estructurar un proyecto Express en Vercel separando la carpeta api y public?"*
-* *"¿Cómo configurar system instructions utilizando el SDK oficial `@google/genai` en Node.js?"*
-* *"Ayúdame a corregir el CSS para separar las tarjetas de los personajes y darles un diseño responsivo."*
-
-## 13. Repositorio y Demo
-
-* **Repositorio:** [https://github.com/BSGarcia01/ProyectoM3_BrayanGarcia](https://github.com/BSGarcia01/ProyectoM3_BrayanGarcia)
-* **Demo desplegada (Vercel):** [https://tu-proyecto.vercel.app](https://www.google.com/search?q=https://tu-proyecto.vercel.app)
-
----
-
-### Autor
+## Autor
 
 Bryan García
 
 Redes sociales: @stivengarciac
-
-```
